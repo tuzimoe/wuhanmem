@@ -1,0 +1,7 @@
+@import '~vuetify/src/styles/styles.sass';
+// If you need to import the font family from CDN then add a import line
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700&display=swap');
+
+$body-font-family: 'Noto Serif SC', serif;
+$title-font: 'Noto Serif SC', serif;
+$typoOptions: display-4, display-3, display-2, display-1, headline, title, subtitle-1, subtitle-2, body-1, body-2, caption, overline;

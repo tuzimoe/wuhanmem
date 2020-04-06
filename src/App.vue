@@ -1,28 +1,61 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app id="inspire" class="noto">
+    <v-navigation-drawer v-model="drawer" app>
+      <v-list dense>
+        <router-link to="/">
+          <v-list-item link>
+            <v-list-item-action>
+              <v-icon>mdi-home</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>首页 </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
+        <router-link to="/submit">
+          <v-list-item link>
+            <v-list-item-action>
+              <v-icon>mdi-contact-mail</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>提交</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-app-bar app color="black" dark>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-toolbar-title>武汉记忆</v-toolbar-title>
+    </v-app-bar>
+
+    <v-content>
+     <router-view/>
+    </v-content>
+    <v-footer color="black" app>
+      <span class="white--text">&copy; 2020 每一个有记忆的人</span>
+    </v-footer>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import './theme/noto.scss'
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  props: {
+    source: String,
+  },
+  data: () => ({
+    drawer: null,
+  }),
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss">
+.v-application {
+  font-family: 'Noto Serif SC', serif !important;
+  //  .title { // To pin point specific classes of some components
+  //     font-family: 'Noto Serif TC', serif !important;
+  //  }
 }
 </style>
