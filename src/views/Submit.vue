@@ -2,23 +2,38 @@
   <div>
     <ipfs-info />
     <v-container fluid>
-      <v-textarea
-        label="你的武汉记忆"
-        :value="story"
-        :clearable="true"
-        :outlined="true"
-        v-model="story"
-      ></v-textarea>
-      Value: {{ story }}
+      <v-form ref="form" v-model="valid" lazy-validation>
+        <v-text-field
+          :clearable="true"
+          :outlined="true"
+          label="标题"
+          v-model="story_title"
+          :rules="[(v) => !!v || '请输入标题 可以「无题」']"
+        ></v-text-field>
+        <v-text-field
+          :clearable="true"
+          :outlined="true"
+          label="作者"
+          v-model="story_auth"
+          :rules="[(v) => !!v || '请输入标题 可以「佚名」']"
+        ></v-text-field>
+        <v-textarea
+          label="你的武汉记忆"
+          :clearable="true"
+          :outlined="true"
+          v-model="story"
+          :rules="[(v) => !!v || '请输入内容']"
+        ></v-textarea>
+      </v-form>
+      <!-- Title: {{ story_title }} Auth: {{ story_auth }} Story: {{ story }} -->
     </v-container>
-
-    <v-btn large @click.native="submit()" color="primary">提交</v-btn>
+    <v-btn block :disabled="!valid" @click.native="submit()" x-large dark>提交</v-btn>
   </div>
 </template>
 <script>
 import IpfsInfo from "../components/IpfsInfo.vue";
-import VueIpfs from '../plugins/vue-ipfs';
-import IPFS from 'ipfs'
+import VueIpfs from "../plugins/vue-ipfs";
+import IPFS from "ipfs";
 export default {
   name: "app",
   components: {
@@ -26,6 +41,7 @@ export default {
   },
   data() {
     return {
+      valid: false,
       story: null,
       story_title: null,
       story_auth: null,
@@ -33,27 +49,11 @@ export default {
   },
   methods: {
     async submit() {
-      const story = this.$data.story
+      const story = this.$data.story;
       // const node = IPFS.create();
-      const files = await IPFS.add(story)
-      console.log(files[0].hash)
+      const files = await IPFS.add(story);
+      console.log(files[0].hash);
     },
   },
 };
 </script>
-
-<style>
-body {
-  margin: 0;
-}
-#app {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-}
-</style>

@@ -34,7 +34,7 @@
      <router-view/>
     </v-content>
     <v-footer color="black" app>
-      <span class="white--text">&copy; 2020 每一个有记忆的人</span>
+      <span class="white--text">&copy; 2020 每一个有记忆的人 & Usagi</span>
     </v-footer>
   </v-app>
 </template>
