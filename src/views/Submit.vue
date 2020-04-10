@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ipfs-info />
+    <!-- <ipfs-info /> -->
     <v-container fluid>
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-text-field
@@ -9,7 +9,7 @@
           label="标题"
           v-model="formdata['story_name']"
           :rules="[(v) => !!v || '请输入标题 可以「无题」']"
-        ></template>
+        ></v-text-field>
         <v-text-field
           :clearable="true"
           :outlined="true"
@@ -31,13 +31,13 @@
   </div>
 </template>
 <script>
-import IpfsInfo from "../components/IpfsInfo.vue";
-import VueIpfs from "../plugins/vue-ipfs";
+// import IpfsInfo from "../components/IpfsInfo.vue";
+// import VueIpfs from "../plugins/vue-ipfs";
 import IPFS from "ipfs";
 export default {
   name: "app",
   components: {
-    IpfsInfo,
+    // IpfsInfo,
   },
   data() {
     return {
