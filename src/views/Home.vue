@@ -66,10 +66,8 @@ export default {
         n.forEach((item,index)=>{
           //遍历，根据一串字符去ipfs拿出真实的内容并展示到界面 
           this.getRealContentFromIpfs(item['story']).then(res=>{
-            if(index>=2){//TODO：将第一个和第二个数据库数据删除，就可以去掉这个判断
               let obj = JSON.parse(res)
               this.realComments.push(obj)
-            }        
           })    
         })
       }

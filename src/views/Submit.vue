@@ -66,7 +66,15 @@ export default {
       const ipfs = await this.$ipfs;
       for await (const result of ipfs.add(story)) {
         this.postSubmitDataToLeanCloud(result.path).then(res=>{
-          console.log('存ipfs str in leancloud成功',res)
+          // console.log('存ipfs str in leancloud成功',res)
+          if(res.data.createdAt){
+            this.formdata = {
+              story: null,
+              story_name: null,
+              story_auth: null,
+            }
+            alert('发布成功')
+          }
         })
       }
     },
