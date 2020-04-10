@@ -1,6 +1,6 @@
 # WuHanMem 武汉记忆  
 [![Netlify Status](https://api.netlify.com/api/v1/badges/36579f7e-a46a-48a3-bcf0-36f3cb8d9b6d/deploy-status)](https://app.netlify.com/sites/wuhanmem/deploys)  
-An IPFS-based Vue application. Somethings should not be forgotten, we should not praises the suffer and enjoy the numbing peace.
+An IPFS-based Vue application.
 ## Project setup
 ```
 yarn install
