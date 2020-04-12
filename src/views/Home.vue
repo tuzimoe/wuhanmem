@@ -1,18 +1,18 @@
 <template>
   <v-content>
     <v-container class="fill-height" fluid>
-      <v-card class="mx-auto" max-width="344" outlined>
+      <v-card class="mx-auto" outlined v-for="(item,index) in realComments" :key="index">
         <v-list-item three-line>
           <v-list-item-content>
-            <v-card-title>{{ story_title }}</v-card-title>
-            <v-card-subtitle>作者：{{ story_auth }}</v-card-subtitle>
-            <v-card-text>{{ story }}</v-card-text>
+            <v-card-title>{{ item['story_name']}}</v-card-title>
+            <v-card-subtitle>作者：{{ item['story_auth'] }}</v-card-subtitle>
+            <v-card-text>{{ item['story'] }}</v-card-text>
             <v-card-text
               ><v-text-field
                 label="IPFS 唯一地址"
                 v-model="ipfshash"
-                disabled="true"
-                readonly="true"
+                disabled
+                readonly
                 height="10"
               ></v-text-field
             ></v-card-text>
@@ -27,12 +27,51 @@
 export default {
   data() {
     return {
-      story:
-        "那个坐在阳台上敲锣鸣病的人。那个深夜追着殡车凄厉地喊着“妈妈”的人。那个在一千人共用一个卫生间的隔离所看《政治秩序的起源》的人。那个开着货车在高速路上流离失所没有归处的人。那个坐着死去被家人抱住头等待殡葬车的人。那个隔离在家中被饿死的人。 那个花了20万最终",
-      story_title: "无题",
-      story_auth: "玛丽莲梦六",
       ipfshash: "QmPChd2hVbrJ6bfo3WBcTW4iZnpHm8TEzWkLHmLpXhF68A",
+      realComments:[],
+      results:[]
     };
   },
+  methods:{
+    async getRealContentFromIpfs(ipfspath) {
+      try {
+        const ipfs = await this.$ipfs;
+        const chunks = []
+        for await (const chunk of ipfs.cat(ipfspath)) {
+          chunks.push(chunk)
+        }
+        return Buffer.concat(chunks).toString()
+      } catch (err) {
+       console.log(err,'error getRealContentFromIpfs')     
+      }
+    },
+    async getDataResultsfromLeanCloud(){
+     let res = await this.$axios.get('https://wuhan.tuzi.moe/1.1/scan/classes/Wuhan?limit=1000',{
+      headers:{
+        'X-LC-Id': 'Kb7ToPF7Gcaub6hCu3FndiGL-MdYXbMMI' ,
+        'X-LC-Key': 'z5Ha9DJrUd8DvPhCBkqa8xiD,master'
+      },
+    })
+    return res
+    }
+  },
+  mounted(){
+    this.getDataResultsfromLeanCloud().then(res=>{
+      this.results = res.data.results
+    })
+  },
+  watch:{
+    results: function (n) {
+      if(n.length!=0){
+        n.forEach((item,index)=>{
+          //遍历，根据一串字符去ipfs拿出真实的内容并展示到界面 
+          this.getRealContentFromIpfs(item['story']).then(res=>{
+              let obj = JSON.parse(res)
+              this.realComments.push(obj)
+          })    
+        })
+      }
+    },
+  }
 };
 </script>
